@@ -1,39 +1,36 @@
-// This is a test harness for your module
-// You should do something interesting in this harness 
-// to test out the module and to provide instructions 
-// to users on how to use it by example.
+var TTS = require("com.giorgos.ttsios7");
+
+var textToDictate = "Dwalend door het landschap van euforische lichten en geen besef meer van tijd, liep ik van uit de Cave de duisternis in om even tot rust te komen in de backstage. Op weg naar de nodige verfrissing kwam jij in mijn blikveld terecht. De godin van de nooduitgang met haar blonde haren en haar verblinde glimlach. De glimlach voelde als een lichtstraal in de duisternis van de backstage, waardoor het euforische gevoel in mij weer naar boven kwam. Terwijl alleen het licht van het bordje van de nooduitgang te zien was. Daar ging ik dan mijn gevoel volgend richting de imposante deuren van de nooduitgang die jij stond te bewaken. Vragend hoe je hier terecht gekomen was?! Je vertelde me dat je als servicemedewerker moest werken op Time Warp en niet had verwacht dat je de hele avond in je eentje bij de nooduitgang zou moeten staan. Ik voelde gelijk de eenzaamheid met je mee, we hebben over van alles gepraat zo weet ik dat je dierengeneeskunde studeert, 24 jaar bent en woont in Utrecht. Helaas moest ik weer door op mijn tocht naar verfrissing, de keel moest immers met regelmaat van de klok worden gesmeerd.";
 
 
 // open a single window
 var win = Ti.UI.createWindow({
-	backgroundColor:'white'
+	backgroundColor:'white',
+	layout:"vertical"
 });
-var label = Ti.UI.createLabel();
-win.add(label);
+
+var speakButton = Ti.UI.createButton({
+	title:"Speak",
+	height:100
+});
+
+var shutupButton = Ti.UI.createButton({
+	title:"Please, shut up :)",
+	height:100
+});
+
 win.open();
 
-// TODO: write your module tests here
-var TTSiOS7 = require('com.giorgos.ttsios7');
-Ti.API.info("module is => " + TTSiOS7);
-
-label.text = TTSiOS7.example();
-
-Ti.API.info("module exampleProp is => " + TTSiOS7.exampleProp);
-TTSiOS7.exampleProp = "This is a test value";
-
-if (Ti.Platform.name == "android") {
-	var proxy = TTSiOS7.createExample({
-		message: "Creating an example Proxy",
-		backgroundColor: "red",
-		width: 100,
-		height: 100,
-		top: 100,
-		left: 150
+speakButton.addEventListener("click", function(e){
+	TTS.speak({
+		text:textToDictate,
+		rate:0.1,//optional, default
+		pitch:1.5//optional, default 
 	});
+});
 
-	proxy.printMessage("Hello world!");
-	proxy.message = "Hi world!.  It's me again.";
-	proxy.printMessage("Hello world!");
-	win.add(proxy);
-}
+//boolean, read only, check if speaking or not
+//TTS.speaking
 
+//boolean, read only, check if paused or not
+//TTS.paused

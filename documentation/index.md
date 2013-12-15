@@ -2,7 +2,7 @@
 
 ## Description
 
-TODO: Enter your module description here
+Exposing Text to Speech iOS7 api to titanium.
 
 ## Accessing the TTSiOS7 Module
 
@@ -10,7 +10,7 @@ To access this module from JavaScript, you would do the following:
 
 	var TTSiOS7 = require("com.giorgos.ttsios7");
 
-The TTSiOS7 variable is a reference to the Module object.	
+The TTSiOS7 variable is a reference to an AVSpeechSynthesizer class instance.	
 
 ## Reference
 
@@ -27,13 +27,13 @@ TODO: This is an example of a module property.
 
 ## Usage
 
-TODO: Enter your usage example here
+check app.js
 
 ## Author
 
-TODO: Enter your author name, email and other contact
-details you want to share here. 
+Giorgos Papadopoulos
+giorgos@giorgos.nl 
 
 ## License
 
-TODO: Enter your license/legal information here.
+Apache License, Version 2.0 (the "License")
