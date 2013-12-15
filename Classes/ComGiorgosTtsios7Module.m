@@ -37,7 +37,7 @@
     //Should I clean this up when finished? Memory ?
     speech = [[AVSpeechSynthesizer alloc] init];
 	
-	NSLog(@"[INFO] %@ loaded",self);
+	NSLog(@"[GIORGOS] %@ loaded",self);
 }
 
 -(void)shutdown:(id)sender
@@ -47,11 +47,11 @@
 	// much processing here or the app will be quit forceably
 	
 	// you *must* call the superclass
-    NSLog(@"[INFO] TTS7 MODULE is shutting down, bye bye cruel world..");
+    NSLog(@"[GIORGOS] TTS7 MODULE is shutting down, bye bye cruel world..");
 	[super shutdown:sender];
 }
 
-#pragma mark Cleanup 
+#pragma mark Cleanup
 
 -(void)dealloc
 {
@@ -74,7 +74,7 @@
 {
 	if (count == 1 && [type isEqualToString:@"my_event"])
 	{
-		// the first (of potentially many) listener is being added 
+		// the first (of potentially many) listener is being added
 		// for event named 'my_event'
 	}
 }
@@ -93,37 +93,75 @@
 
 -(void)speak:(id)args
 {
-	// example method
+    //text:$text,
+    //pitch:1.5,
+    //rate:0.1,
+    //language:"nl"
     ENSURE_ARG_COUNT(args,1);
-    textToDictate = [TiUtils stringValue:[args objectAtIndex:0]];
-    utter = [[AVSpeechUtterance alloc] initWithString:textToDictate];
-    utter.pitchMultiplier = 1.5;
-    utter.rate = 0.1;
-    NSLog(@"languages2: %f",AVSpeechUtteranceDefaultSpeechRate);
-    utter.voice = [AVSpeechSynthesisVoice voiceWithLanguage:@"nl-NL"];
-    [speech speakUtterance:utter];
-}
-
--(void)shutup
-{
-    //[speech stopSpeakingAtBoundary:AVSpeechBoundaryImmediate];
-}
-
--(id)example:(id)args
-{
-	// example method
-	return @"hello world";
-}
-
--(id)exampleProp
-{
-	// example property getter
-	return @"hello world";
-}
-
--(void)setExampleProp:(id)value
-{
-	// example property setter
-}
-
-@end
+	NSLog(@"passing stuff: %@", args);
+    NSDictionary *ttsArgs =[args objectAtIndex:0];
+    if([ttsArgs objectForKey:@"text"]){
+        float pitchMultiplier = 1.5, rate = 0.1;
+        if([ttsArgs objectForKey:@"pitch"]){
+            pitchMultiplier = [TiUtils floatValue:[ttsArgs objectForKey:@"pitch"]];
+        }
+        if([ttsArgs objectForKey:@"rate"]){
+            rate = [TiUtils floatValue:[ttsArgs objectForKey:@"rate"]];
+        }
+        if([ttsArgs objectForKey:@"language"]){
+            
+        }
+        textToDictate = [TiUtils stringValue:[ttsArgs objectForKey:@"text"]];
+        utter = [[AVSpeechUtterance alloc] initWithString:textToDictate];
+        utter.pitchMultiplier = pitchMultiplier;
+        utter.rate = rate;
+        utter.voice = [AVSpeechSynthesisVoice voiceWithLanguage:@"nl-NL"];
+        [speech speakUtterance:utter];
+    }else{
+        NSLog(@"[INFO] [TTSIOS7] No text passed! You will not hear a thing :)");
+    }
+        
+        }
+        
+        -(void)shutup:(id)args
+    {
+        NSLog(@"[GIORGOS] Enjoy the silence");
+        [speech stopSpeakingAtBoundary:AVSpeechBoundaryImmediate];
+    }
+        
+        -(BOOL)pause:(id)args
+    {
+        if(speech.paused){
+            return [speech continueSpeaking];
+        }
+        return [speech pauseSpeakingAtBoundary:AVSpeechBoundaryImmediate];
+    }
+        
+        -(BOOL)speaking
+    {
+        return [speech speaking];
+    }
+        
+        -(BOOL)paused
+    {
+        return [speech paused];
+    }
+        
+        //-(id)example:(id)args
+        //{
+        //	// example method
+        //	return @"hello world";
+        //}
+        //
+        //-(id)exampleProp
+        //{
+        //	// example property getter
+        //	return @"hello world";
+        //}
+        //
+        //-(void)setExampleProp:(id)value
+        //{
+        //	// example property setter
+        //}
+        
+        @end
