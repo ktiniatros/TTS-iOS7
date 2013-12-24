@@ -1,6 +1,6 @@
 var TTS = require("com.giorgos.ttsios7");
 
-var textToDictate = "Dwalend door het landschap van euforische lichten en geen besef meer van tijd, liep ik van uit de Cave de duisternis in om even tot rust te komen in de backstage. Op weg naar de nodige verfrissing kwam jij in mijn blikveld terecht. De godin van de nooduitgang met haar blonde haren en haar verblinde glimlach. De glimlach voelde als een lichtstraal in de duisternis van de backstage, waardoor het euforische gevoel in mij weer naar boven kwam. Terwijl alleen het licht van het bordje van de nooduitgang te zien was. Daar ging ik dan mijn gevoel volgend richting de imposante deuren van de nooduitgang die jij stond te bewaken. Vragend hoe je hier terecht gekomen was?! Je vertelde me dat je als servicemedewerker moest werken op Time Warp en niet had verwacht dat je de hele avond in je eentje bij de nooduitgang zou moeten staan. Ik voelde gelijk de eenzaamheid met je mee, we hebben over van alles gepraat zo weet ik dat je dierengeneeskunde studeert, 24 jaar bent en woont in Utrecht. Helaas moest ik weer door op mijn tocht naar verfrissing, de keel moest immers met regelmaat van de klok worden gesmeerd.";
+var textToDictate = "Dwalend door het landschap van euforische lichten en geen besef meer van tijd, liep ik van uit de Cave de duisternis in om even tot rust te komen in de backstage. Op weg naar de nodige verfrissing kwam jij in mijn blikveld terecht. De godin van de nooduitgang met haar blonde haren en haar verblinde glimlach. De glimlach voelde als een lichtstraal in de duisternis van de backstage, waardoor het euforische gevoel in mij weer naar boven kwam. Terwijl alleen het licht van het bordje van de nooduitgang te zien was. Daar ging ik dan mijn gevoel volgend richting de imposante deuren van de nooduitgang die jij stond te bewaken. Vragend hoe je hier terecht gekomen was?! Je vertelde me dat je als servicemedewerker moest werken op Time Warp en niet had verwacht dat je de hele avond in je eentje bij de nooduitgang zou moeten staan. Ik voelde gelijk de eenzaamheid met je mee, we hebben over van alles gepraat zo weet ik dat je dierengeneeskunde studeert, 24 jaar bent en woont in Utrecht. Helaas moest ik weer door op mijn tocht naar verfrissing, de keel moest immers met regelmaat van de klok worden gesmeerd. Molly is super lekker.";
 
 
 // open a single window
@@ -23,10 +23,15 @@ win.open();
 
 speakButton.addEventListener("click", function(e){
 	TTS.speak({
-		text:textToDictate,
+		text:textToDictate,//required
+		language:"nl-NL",//optional, pass here the locale of the language of your text, default is en-US. You can check all the available options at the console when you require the module. 
 		rate:0.1,//optional, default
 		pitch:1.5//optional, default 
 	});
+});
+
+shutupButton.addEventListener("click", function(e){
+	TTS.shutup();
 });
 
 //boolean, read only, check if speaking or not

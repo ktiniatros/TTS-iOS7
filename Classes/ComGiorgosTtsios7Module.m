@@ -37,7 +37,14 @@
     //Should I clean this up when finished? Memory ?
     speech = [[AVSpeechSynthesizer alloc] init];
 	
+    //sum up the available language voices
+    availableLanguages = [[NSMutableArray alloc] init];
+    for(AVSpeechSynthesisVoice *speechVoice in [AVSpeechSynthesisVoice speechVoices]){
+        [availableLanguages addObject:speechVoice.language];
+    }
+    
 	NSLog(@"[GIORGOS] %@ loaded",self);
+    NSLog(@"[DEBUG] available languages: %@", availableLanguages);
 }
 
 -(void)shutdown:(id)sender
@@ -55,7 +62,11 @@
 
 -(void)dealloc
 {
-	// release any resources that have been retained by the module
+    textToDictate = nil;
+    utter = nil;
+    speech = nil;
+    availableLanguages = nil;
+    NSLog(@"[DEBUG] [TTS] Destroyed.");
 	[super dealloc];
 }
 
@@ -98,10 +109,17 @@
     //rate:0.1,
     //language:"nl"
     ENSURE_ARG_COUNT(args,1);
-	NSLog(@"passing stuff: %@", args);
     NSDictionary *ttsArgs =[args objectAtIndex:0];
     if([ttsArgs objectForKey:@"text"]){
         float pitchMultiplier = 1.5, rate = 0.1;
+        //default is english
+        NSString *language = @"en-US";
+        if([ttsArgs objectForKey:@"language"]){
+            int argIndex = [availableLanguages indexOfObject:[ttsArgs objectForKey:@"language"]];
+            if(argIndex > -1){
+                language = [availableLanguages objectAtIndex:argIndex];
+            }
+        }
         if([ttsArgs objectForKey:@"pitch"]){
             pitchMultiplier = [TiUtils floatValue:[ttsArgs objectForKey:@"pitch"]];
         }
@@ -115,17 +133,17 @@
         utter = [[AVSpeechUtterance alloc] initWithString:textToDictate];
         utter.pitchMultiplier = pitchMultiplier;
         utter.rate = rate;
-        utter.voice = [AVSpeechSynthesisVoice voiceWithLanguage:@"nl-NL"];
+        utter.voice = [AVSpeechSynthesisVoice voiceWithLanguage:language];
         [speech speakUtterance:utter];
     }else{
-        NSLog(@"[INFO] [TTSIOS7] No text passed! You will not hear a thing :)");
+        NSLog(@"[WARN] [TTSIOS7] No text passed! You will not hear a thing :)");
     }
         
         }
         
         -(void)shutup:(id)args
     {
-        NSLog(@"[GIORGOS] Enjoy the silence");
+        NSLog(@"[DEBUG] [TTS] Enjoy the silence");
         [speech stopSpeakingAtBoundary:AVSpeechBoundaryImmediate];
     }
         

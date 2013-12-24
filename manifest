@@ -2,11 +2,11 @@
 # this is your module manifest and used by Titanium
 # during compilation, packaging, distribution, etc.
 #
-version: 0.2
+version: 1.0
 apiversion: 2
-description: My module
-author: Giorgos
-license: Specify your license
+description: Exposing Text to Speech of iOS7 to Titanium
+author: Giorgos Papadopoulos
+license: Apache license
 copyright: giorgos.nl
 
 

@@ -12,6 +12,7 @@
     NSString *textToDictate;
     AVSpeechUtterance *utter;
     AVSpeechSynthesizer *speech;
+    NSMutableArray *availableLanguages;
 }
 
 @end
